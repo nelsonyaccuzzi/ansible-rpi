@@ -1,0 +1,24 @@
+- hosts: localhost
+  become: true
+  tasks:
+  
+  - name: Update and upgrade
+    apt:
+      name: "*"
+      state: latest
+      force_apt_get: yes
+
+  - name: Install packages
+    apt:
+      name:
+      - git
+      - vim
+      - ntfs-3g
+      state: present
+
+  - name: Mount USB Drive
+    mount:
+      path: /mnt/5TERA
+      src: /dev/sda2
+      fstype: ntfs
+      state: mounted
