@@ -22,3 +22,14 @@
       src: /dev/sda2
       fstype: ntfs
       state: mounted
+
+  - name: Install VimRC
+    git:
+      repo: https://github.com/amix/vimrc.git
+      dest: ~/.vim_runtime
+      depth: 1
+
+  - name: Install VimRC
+    shell: sh ~/.vim_runtime/install_awesome_vimrc.sh
+
+

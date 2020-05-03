@@ -1,0 +1,129 @@
+- hosts: localhost
+  vars:
+    network_name: lan
+  tasks:
+
+  - name: Create Network
+    docker_network:
+      name: "{{ network_name }}"
+
+  - name: Create Deluge Container
+    docker_container:
+      name: deluge
+      image: nelsonyaccuzzi/docker-rpi-deluge
+      state: started
+      networks:
+      - name: "{{ network_name }}"
+      volumes:
+        - /mnt/5TERA/config/deluge:/config
+        - /mnt/5TERA/media:/data
+      ports:
+        - "8112:8112"
+      restart_policy: unless-stopped
+      pull: yes
+
+  - name: Create Sonarr Container
+    docker_container:
+      name: sonarr
+      image: nelsonyaccuzzi/docker-rpi-sonarr
+      state: started
+      networks:
+      - name: "{{ network_name }}"
+      volumes:
+        - /mnt/5TERA/config/sonarr:/config
+        - /mnt/5TERA/media:/data
+      ports:
+        - "8989:8989"
+      restart_policy: unless-stopped
+      pull: yes
+
+  - name: Create Radarr Container
+    docker_container:
+      name: radarr
+      image: nelsonyaccuzzi/docker-rpi-radarr
+      state: started
+      networks:
+      - name: "{{ network_name }}"
+      volumes:
+        - /mnt/5TERA/config/radarr:/config
+        - /mnt/5TERA/media:/data
+      ports:
+        - "7878:7878"
+      restart_policy: unless-stopped
+      pull: yes
+
+  - name: Create Bazarr Container
+    docker_container:
+      name: bazarr
+      image: nelsonyaccuzzi/docker-rpi-bazarr
+      state: started
+      networks:
+      - name: "{{ network_name }}"
+      volumes:
+        - /mnt/5TERA/config/bazarr:/config
+        - /mnt/5TERA/media:/data
+      ports:
+        - "6767:6767"
+      restart_policy: unless-stopped
+      pull: yes
+
+  - name: Create CouchPotato Container
+    docker_container:
+      name: couchpotato
+      image: nelsonyaccuzzi/docker-rpi-couchpotato
+      state: started
+      networks:
+      - name: "{{ network_name }}"
+      volumes:
+        - /mnt/5TERA/config/couchpotato:/config
+        - /mnt/5TERA/media:/data
+      ports:
+        - "5050:5050"
+      restart_policy: unless-stopped
+      pull: yes
+
+  - name: Create Jackett Container
+    docker_container:
+      name: jackett
+      image: nelsonyaccuzzi/docker-rpi-jackett
+      state: started
+      networks:
+      - name: "{{ network_name }}"
+      volumes:
+        - /mnt/5TERA/config/jackett:/config
+        - /mnt/5TERA/media:/data
+      ports:
+        - "9117:9117"
+      restart_policy: unless-stopped
+      pull: yes
+
+  - name: Create Plex Container
+    docker_container:
+      name: plex
+      image: nelsonyaccuzzi/docker-rpi-plex
+      state: started
+      networks:
+      - name: "{{ network_name }}"
+      volumes:
+        - /mnt/5TERA/config/plex:/config
+        - /mnt/5TERA/media:/data
+      ports:
+        - "32400:32400"
+      env:
+        ADVERTISE_IP: "http://192.168.0.33:32400/"
+      restart_policy: unless-stopped
+      pull: yes
+      
+  - name: Create Organizr Container
+    docker_container:
+      name: organizr
+      image: organizrtools/organizr-v2:armhf
+      state: started
+      networks:
+      - name: "{{ network_name }}"
+      volumes:
+        - /mnt/5TERA/config/organizr:/config
+      ports:
+        - "80:80"
+      restart_policy: unless-stopped
+      pull: yes
