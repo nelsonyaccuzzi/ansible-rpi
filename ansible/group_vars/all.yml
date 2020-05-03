@@ -1,0 +1,41 @@
+services:
+  deluge:
+    enable: true
+    config_path: "{{ config_path }}/deluge"
+    data_path: "{{ data_path }}"
+  sonarr:
+    enable: true
+    config_path: "{{ config_path }}/sonarr"
+    data_path: "{{ data_path }}"
+  bazarr:
+    enable: true
+    config_path: "{{ config_path }}/bazarr"
+    data_path: "{{ data_path }}"
+  radarr:
+    enable: true
+    config_path: "{{ config_path }}/radarr"
+    data_path: "{{ data_path }}"
+  plex:
+    enable: true
+    config_path: "{{ config_path }}/plex"
+    data_path: "{{ data_path }}"
+  couchpotato:
+    enable: true
+    config_path: "{{ config_path }}/couchpotato"
+    data_path: "{{ data_path }}"
+  jackett:
+    enable: true
+    config_path: "{{ config_path }}/jackett"
+    data_path: "{{ data_path }}"
+  organizr:
+    enable: true
+    config_path: "{{ config_path }}/organizr"
+
+root_path: /mnt/5TERA
+
+data_path: "{{ root_path }}/media"
+config_path: "{{ root_path }}/config"
+
+network_name: lan
+
+

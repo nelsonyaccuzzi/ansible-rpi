@@ -1,8 +1,6 @@
 - hosts: localhost
-  vars:
-    network_name: lan
   tasks:
-
+    
   - name: Create Network
     docker_network:
       name: "{{ network_name }}"
@@ -15,12 +13,13 @@
       networks:
       - name: "{{ network_name }}"
       volumes:
-        - /mnt/5TERA/config/deluge:/config
-        - /mnt/5TERA/media:/data
+        - "{{ services.deluge.config_path }}:/config"
+        - "{{ services.deluge.data_path }}:/data"
       ports:
         - "8112:8112"
       restart_policy: unless-stopped
       pull: yes
+    when: services.deluge.enable
 
   - name: Create Sonarr Container
     docker_container:
@@ -30,12 +29,13 @@
       networks:
       - name: "{{ network_name }}"
       volumes:
-        - /mnt/5TERA/config/sonarr:/config
-        - /mnt/5TERA/media:/data
+        - "{{ services.sonarr.config_path }}:/config"
+        - "{{ services.sonarr.data_path }}:/data"
       ports:
         - "8989:8989"
       restart_policy: unless-stopped
       pull: yes
+    when: services.sonarr.enable
 
   - name: Create Radarr Container
     docker_container:
@@ -45,12 +45,13 @@
       networks:
       - name: "{{ network_name }}"
       volumes:
-        - /mnt/5TERA/config/radarr:/config
-        - /mnt/5TERA/media:/data
+        - "{{ services.radarr.config_path }}:/config"
+        - "{{ services.radarr.data_path }}:/data"
       ports:
         - "7878:7878"
       restart_policy: unless-stopped
       pull: yes
+    when: services.radarr.enable
 
   - name: Create Bazarr Container
     docker_container:
@@ -60,12 +61,13 @@
       networks:
       - name: "{{ network_name }}"
       volumes:
-        - /mnt/5TERA/config/bazarr:/config
-        - /mnt/5TERA/media:/data
+        - "{{ services.bazarr.config_path }}:/config"
+        - "{{ services.bazarr.data_path }}:/data"
       ports:
         - "6767:6767"
       restart_policy: unless-stopped
       pull: yes
+    when: services.bazarr.enable
 
   - name: Create CouchPotato Container
     docker_container:
@@ -75,12 +77,13 @@
       networks:
       - name: "{{ network_name }}"
       volumes:
-        - /mnt/5TERA/config/couchpotato:/config
-        - /mnt/5TERA/media:/data
+        - "{{ services.couchpotato.config_path }}:/config"
+        - "{{ services.couchpotato.data_path }}:/data"
       ports:
         - "5050:5050"
       restart_policy: unless-stopped
       pull: yes
+    when: services.couchpotato.enable 
 
   - name: Create Jackett Container
     docker_container:
@@ -90,12 +93,13 @@
       networks:
       - name: "{{ network_name }}"
       volumes:
-        - /mnt/5TERA/config/jackett:/config
-        - /mnt/5TERA/media:/data
+        - "{{ services.jackett.config_path }}:/config"
+        - "{{ services.jackett.data_path }}:/data"
       ports:
         - "9117:9117"
       restart_policy: unless-stopped
       pull: yes
+    when: services.jackett.enable
 
   - name: Create Plex Container
     docker_container:
@@ -105,14 +109,15 @@
       networks:
       - name: "{{ network_name }}"
       volumes:
-        - /mnt/5TERA/config/plex:/config
-        - /mnt/5TERA/media:/data
+        - "{{ services.plex.config_path }}:/config"
+        - "{{ services.plex.data_path }}:/data"
       ports:
         - "32400:32400"
       env:
         ADVERTISE_IP: "http://192.168.0.33:32400/"
       restart_policy: unless-stopped
       pull: yes
+    when: services.plex.enable
       
   - name: Create Organizr Container
     docker_container:
@@ -122,8 +127,9 @@
       networks:
       - name: "{{ network_name }}"
       volumes:
-        - /mnt/5TERA/config/organizr:/config
+        - "{{ services.organizr.config_path }}:/config"
       ports:
         - "80:80"
       restart_policy: unless-stopped
       pull: yes
+    when: services.organizr.enable
